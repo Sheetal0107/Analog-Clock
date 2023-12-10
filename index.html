@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/x-icon" href="clock.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clock</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url(clockbg.png);
+            background-size: 100%;
+            background-repeat: no-repeat;
+        }
+
+        .heading h2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            position: relative;
+            background: rgb(167, 127, 138);
+
+            border-radius: 20px;
+            border-top-left-radius: 225px;
+            border-top-right-radius: 225px;
+            box-shadow: 25px 25px 75px rgba(5, 4, 4, 0.75),
+                10px 10px 70px rgba(2, 2, 2, 0.25),
+                inset 5px 5px 10px rgba(138, 114, 114, 0.5),
+                inset 5px 5px 20px rgba(45, 42, 42, 0.2),
+                inset -5px -5px 15px rgba(1, 1, 1, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .clock {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            background: rgb(167, 127, 138);
+            border-radius: 50%;
+            box-shadow: 10px 50px 70px rgba(255, 255, 255, 0.276),
+                inset 5px 5px 10px rgba(2, 1, 1, 0.5),
+                inset 5px 5px 20px rgba(12, 12, 12, 0.2),
+                inset -5px -5px 15px rgba(7, 7, 7, 0.75);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .clock::before {
+            content: ' ';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: pink;
+            border: 3px solid #fff;
+            border-radius: 50%;
+            z-index: 100000;
+        }
+
+        .clock span {
+            position: absolute;
+            inset: 20px;
+            color: #fff;
+            text-align: center;
+            transform: rotate(calc(30deg * var(--i)));
+        }
+
+        .clock span b {
+            font-size: 1.3em;
+            opacity: 0.5;
+            font-weight: 600;
+            display: inline-block;
+            transform: rotate(calc(-30deg * var(--i)));
+        }
+
+        .circle {
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            border: 2px solid rgba(0, 0, 0, 0.25);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            z-index: 10;
+        }
+
+        .circle i {
+            position: absolute;
+            width: 5.5px;
+            border-radius: 10%;
+            height: 50%;
+            background: var(--clr);
+            opacity: 0.8;
+            transform-origin: bottom;
+            transform: scaleY(0.5);
+            z-index: 10;
+        }
+
+        .circle:nth-child(1) i {
+            width: 2px;
+        }
+
+        .circle:nth-child(2) i {
+            width: 3.5px;
+        }
+
+        .circle2 {
+            width: 150px;
+            height: 150px;
+            z-index: 9;
+        }
+
+        .circle3 {
+            width: 110px;
+            height: 110px;
+            z-index: 8;
+        }
+
+        .circle::before {
+            content: ' ';
+            position: absolute;
+            top: -8.5px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: var(--clr);
+            box-shadow: 0 0 20px var(--clr),
+                0 0 60px var(--clr);
+        }
+
+        #time {
+            margin-bottom: 40px;
+            display: flex;
+            padding: 10px 20px;
+            font-size: 2em;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 40px;
+            box-shadow: 5px 5px 10px rgba(242, 229, 229, 0.5),
+                inset 5px 5px 20px rgba(226, 215, 215, 0.2),
+                inset -5px -5px 15px rgba(214, 202, 202, 0.75);
+        }
+
+        #time div {
+            position: relative;
+            width: 60px;
+            text-align: center;
+            font-weight: 500;
+            color: var(--clr);
+        }
+
+        #time div:nth-child(1)::after,
+        #time div:nth-child(2)::after {
+            content: ':';
+            position: absolute;
+            right: -4px;
+        }
+
+        #time div:last-child {
+            font-size: 0.5em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        #time div:nth-child(2)::after {
+            animation: animate 1s steps(1) infinite;
+        }
+
+        @keyframes animate {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="clock">
+            <div class="circle" id="sc" style="--clr:rgb(0, 0, 0);"><i></i></div>
+            <div class="circle circle2" id="mn" style="--clr:rgb(116, 112, 115);"><i></i></div>
+            <div class="circle circle3" id="hr" style="--clr: rgb(255, 255, 255);"><i></i></div>
+            <span style="--i:1"><b>1</b></span>
+            <span style="--i:2"><b>2</b></span>
+            <span style="--i:3"><b>3</b></span>
+            <span style="--i:4"><b>4</b></span>
+            <span style="--i:5"><b>5</b></span>
+            <span style="--i:6"><b>6</b></span>
+            <span style="--i:7"><b>7</b></span>
+            <span style="--i:8"><b>8</b></span>
+            <span style="--i:9"><b>9</b></span>
+            <span style="--i:10"><b>10</b></span>
+            <span style="--i:11"><b>11</b></span>
+            <span style="--i:12"><b>12</b></span>
+        </div>
+        <div id="time">
+            <div id="hours" style="--clr:rgb(0, 0, 0);">00</div>
+            <div id="minutes" style="--clr:rgb(116, 112, 115);">00</div>
+            <div id="seconds" style="--clr: rgb(255, 255, 255);">00</div>
+            <div id="ampm">AM</div>
+        </div>
+    </div>
+    <script>
+        let hr = document.querySelector('#hr');
+        let mn = document.querySelector('#mn');
+        let sc = document.querySelector('#sc');
+        setInterval(() => {
+            let day = new Date();
+            let hh = day.getHours() * 30;
+            let mm = day.getMinutes() * 6;
+            let ss = day.getSeconds() * 6;
+
+            hr.style.transform = `rotateZ(${hh + (mm / 12)}deg)`;
+            mn.style.transform = `rotateZ(${mm}deg)`;
+            sc.style.transform = `rotateZ(${ss}deg)`;
+
+            let hours = document.getElementById('hours');
+            let minutes = document.getElementById('minutes');
+            let seconds = document.getElementById('seconds');
+            let ampm = document.getElementById('ampm');
+
+            let h = new Date().getHours();
+            let m = new Date().getMinutes();
+            let s = new Date().getSeconds();
+            let am = h >= 12 ? "PM" : "AM";
+
+            if (h > 12) {
+                h = h - 12;
+            }
+
+            h = (h < 10) ? "0" + h : h
+            m = (m < 10) ? "0" + m : m
+            s = (s < 10) ? "0" + s : s
+
+            hours.innerHTML = h;
+            minutes.innerHTML = m;
+            seconds.innerHTML = s;
+            ampm.innerHTML = am;
+        })
+    </script>
+</body>
+
+</html>
